@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,  //Que se admitan los dto
-      forbidNonWhitelisted: true, //Que lo rechaze si me quiere mandar cualquier cosa
+      forbidNonWhitelisted: true, //Que lo rebote al usuario si me quiere mandar cualquier cosa
       transform: true,
     })
   );
