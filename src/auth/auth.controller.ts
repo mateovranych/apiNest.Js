@@ -24,8 +24,8 @@ export class AuthController {
 
     //Tengo que definir el método con Post, para probarlo en el postman.
     @Post('login')
-    login(@Body()loginDto:loginDto,
-    ){
+    login(@Body()loginDto:loginDto){
+        
         return this.authService.login(loginDto);
     }
 
@@ -34,16 +34,6 @@ export class AuthController {
     {        
         return this.authService.register(registerDto);
     }
-
-
-    // @Get('profile')
-    // @Roles(Role.USER)
-    // @UseGuards(AuthGuard, RolesGuard)
-    // profile(
-    //     @Req() req: RequestWithUser){
-    //     return req.user;
-    //     console.log('profile')
-    // }
 
     @Get('profile')
     @Auth(Role.ADMIN)

@@ -8,33 +8,44 @@ import { ActiveUser } from 'src/common/enum/decorators.active.user/active-user.d
 import { userActiveInterface } from 'src/common/enum/interfaces/user-interface.active';
 
 
-@Auth(Role.ADMIN)
+@Auth(Role.USER)
 @Controller('cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
-  create(@Body() createCatDto: CreateCatDto, @ActiveUser() user: userActiveInterface) {
+  create(
+    @Body() createCatDto: CreateCatDto, 
+    @ActiveUser() user: userActiveInterface
+  ) {
     return this.catsService.create(createCatDto, user);
   }
 
   @Get()
-  findAll() {
-    return this.catsService.findAll();
+  findAll(@ActiveUser() user:userActiveInterface) {
+    console.log(user)
+    return this.catsService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.catsService.findOne(+id);
+  findOne(
+    @Param('id') id: number, 
+    @ActiveUser()
+    user: userActiveInterface) {
+    return this.catsService.findOne(id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
-    return this.catsService.update(+id, updateCatDto);
+  update(
+    @Param('id') id: number, 
+    @Body() updateCatDto: UpdateCatDto, 
+    @ActiveUser() 
+    user: userActiveInterface) {
+    return this.catsService.update(+id, updateCatDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.catsService.remove(+id);
+  remove(@Param('id') id: number, @ActiveUser() user:userActiveInterface) {
+    return this.catsService.remove(+id, user);
   }
 }
