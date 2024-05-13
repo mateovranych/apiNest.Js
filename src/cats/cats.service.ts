@@ -4,7 +4,8 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cat } from './entities/cat.entity';
-import { Breed } from 'src/breeds/entities/breed.entity';
+import { Breed } from '../breeds/entities/breed.entity';
+import { userActiveInterface } from '../common/enum/interfaces/user-interface.active';
 
 @Injectable()
 export class CatsService {
@@ -19,15 +20,16 @@ export class CatsService {
   ){}
 
 
-  async create(createCatDto: CreateCatDto) {
+  async create(createCatDto: CreateCatDto, user: userActiveInterface) {
     const breed = await this.breedRepository.findOneBy({name: createCatDto.breed});
 
     if(!breed){
       throw new BadRequestException("No existe la raza");
     }
     return await this.catRepository.save({
-      ...createCatDto
-      ,breed
+      ...createCatDto,
+      breed: breed,
+      userEmail:user.email,
     })
   }
   async findOne(id: number) {
