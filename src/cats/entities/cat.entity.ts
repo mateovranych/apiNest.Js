@@ -1,6 +1,6 @@
 import { Breed } from "../../breeds/entities/breed.entity";
 import { User } from "../../users/entities/user.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 
 @Entity()
@@ -29,6 +29,10 @@ export class Cat {
 
     @Column()
     userEmail:string;
+
+    @Column()
+    @CreateDateColumn({ type: "timestamp" })
+    createdAt: Date;
 
 
 
