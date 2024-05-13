@@ -27,11 +27,12 @@ async register({username, email, password}:RegisterDto){
         password: await bcryptjs.hash(password, 15) //Hasheo la contraseña con el bycryptjs.hash y después le paso el número de saltos (password, 15)
     });    
 }
+
 async login({email, password}:loginDto){
 
     //Hago una constante user, que espere la llamada del servicio usuario que busque el email
 
-    const user = await this.usersService.findOneByEmail(email)
+    const user = await this.usersService.findByEmailWithPassword(email)
     if(!user){
         throw new UnauthorizedException('El email no es correcto')
     }

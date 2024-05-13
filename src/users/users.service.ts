@@ -15,20 +15,26 @@ export class UsersService {
 
   }
 
-
-
-  async create(createUserDto: CreateUserDto) {
-    return await this.userRepository.save(createUserDto);
+   create(createUserDto: CreateUserDto) {
+    return this.userRepository.save(createUserDto);
+  }
+   findOneByEmail(email : string){
+    return this.userRepository.findOneBy({email})
   }
 
+  findByEmailWithPassword(email:string){
+    return this.userRepository.findOne({
+      where: {email},
+      select:['id','username','email','password','role'],
+    }                  
+    );
+  }
+  
   async findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find();
   }
 
-  async findOneByEmail(email : string){
 
-    return await this.userRepository.findOneBy({email})
-  }
 
  async  findOne(id: number) {
     return `This action returns a #${id} user`;
